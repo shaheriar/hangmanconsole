@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include <ctime>
+#include <algorithm>
 
 using namespace std;
 
@@ -26,11 +27,12 @@ int index = 0;
 void setup() {
 	ifstream in;
 	string text;
-	in.open("dictionary.txt");
+	in.open("movies.txt");
 	if (!in.is_open()) {
 		cout << "Cannot find dictionary. Closing." << endl;
 		exit(-1);
 	}
+	int i = 0;
 	while(getline(in, text)) {
 		if (text.size() > 3) {
 			dictionary.push_back(text);
@@ -97,11 +99,16 @@ int main() {
 		srand(seed);
 		cout << endl << "-- H A N G  M A N --\n";
 		n = dictionary.at(rand() % dictionary.size());
+		transform(n.begin(), n.end(), n.begin(), ::tolower);
 		char r = n[rand() % n.size()];
 		string rr(1, r);
-		for (int i = 0; i < n.size(); i++) {
+		for (int i = 0; i < n.size() - 1; i++) {
 			if (r == n[i]) {
 				v.push_back(rr);
+			} else if (n[i] == ' ') {
+				v.push_back(" ");
+			} else if (n[i] == ':') {
+				v.push_back(":");
 			} else {
 				v.push_back("_");
 			}
