@@ -26,8 +26,35 @@ int index = 0;
 
 void setup() {
 	ifstream in;
+	string category;
+	bool correct = false;
+	int num;
 	string text;
-	in.open("movies.txt");
+	string input;
+	cout << "Choose a category: \n1. Movies\n2. General Dictionary\n3. User Defined Dictionary" << endl;
+	cin >> input;
+	while(!correct) {
+		try {
+			num = stoi(input); correct = true;
+		} catch(const invalid_argument& error) {
+			cout << "Invalid entry. Try again: ";
+			cin >> input;
+		}		
+		switch(num) {
+			case 1:
+				category = "movies.txt"; correct = true; break;
+			case 2:
+				category = "dictionary.txt"; correct = true; break;
+			case 3:
+				cout << "Enter file name (with extension): ";
+				cin >> category;
+				correct = true;
+				break;
+			default:
+				correct = false; break;
+		}
+	}
+	in.open(category);
 	if (!in.is_open()) {
 		cout << "Cannot find dictionary. Closing." << endl;
 		exit(-1);
@@ -139,7 +166,7 @@ int main() {
 		cin >> choice;
 		while ((choice != 'Y' && choice != 'y') && (choice != 'N' && choice != 'n')) {
 			if ((choice != 'Y' && choice != 'y') && (choice != 'N' && choice != 'n')) {
-				cout << "Please enter either Y or N: "; 
+				cout << endl << "Please enter either Y or N: "; 
 				cin >> choice;
 				cout << endl;
 			}
