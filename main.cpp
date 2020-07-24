@@ -136,6 +136,8 @@ int main() {
 				v.push_back(" ");
 			} else if (n[i] == ':') {
 				v.push_back(":");
+			} else if (n[i] == '-') {
+				v.push_back("-");
 			} else {
 				v.push_back("_");
 			}
