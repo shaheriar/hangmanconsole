@@ -16,6 +16,7 @@ string drawfive = "_______\n|     |\n|      \n|      \n|      \n|       \n|_____
 
 char input;
 string n;
+string nn;
 vector<string> v;
 vector<string> nf;
 vector<string> stage;
@@ -126,6 +127,7 @@ int main() {
 		srand(seed);
 		cout << endl << "-- H A N G  M A N --\n";
 		n = dictionary.at(rand() % dictionary.size());
+		nn = n;
 		transform(n.begin(), n.end(), n.begin(), ::tolower);
 		char r = n[rand() % n.size()];
 		string rr(1, r);
@@ -138,6 +140,8 @@ int main() {
 				v.push_back(":");
 			} else if (n[i] == '-') {
 				v.push_back("-");
+			} else if (n[i] == '\'') {
+				v.push_back("'");
 			} else {
 				v.push_back("_");
 			}
@@ -159,7 +163,7 @@ int main() {
 				index++;
 				notfound(input);
 			}
-			done = isdone() || lost(n);
+			done = isdone() || lost(nn);
 			found = false;
 			cout << endl;
 			print();
