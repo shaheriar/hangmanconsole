@@ -134,15 +134,9 @@ int main() {
 		for (int i = 0; i < n.size() - 1; i++) {
 			if (r == n[i]) {
 				v.push_back(rr);
-			} else if (n[i] == ' ') {
-				v.push_back(" ");
-			} else if (n[i] == ':') {
-				v.push_back(":");
-			} else if (n[i] == '-') {
-				v.push_back("-");
-			} else if (n[i] == '\'') {
-				v.push_back("'");
-			} else {
+			} else if (n[i] == ' ' || n[i] == ':' || n[i] == '\'' || n[i] == ',' || n[i] == '-') {
+				v.push_back(string(1, n[i]));
+			}	else {
 				v.push_back("_");
 			}
 		}
