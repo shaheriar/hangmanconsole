@@ -26,6 +26,7 @@ int start = 0;
 bool done = false;
 bool found = false;
 int index = 0;
+int score = 0;
 
 void setup() {
 	ifstream in;
@@ -107,7 +108,8 @@ void notfound(char inn) {
 
 void print() {
 	cout << endl << "-- H A N G  M A N --\n";
-	cout << stage.at(index);
+	cout << endl << "Score: " << score << endl;
+	cout << stage.at(index) << endl;
 	for (int i = 0; i < v.size(); i++) {
 		cout << v.at(i) << ' ';
 	}
@@ -122,10 +124,16 @@ void print() {
 		cout << endl << "Letter found!" << endl;
 	}
 	if (lost()) {
-		cout << endl << "-- G a m e  l o s t --" << endl;
+		if (score > 0) {
+			score--;
+		}
+		cout << endl << "-- G A M E  L O S T --" << endl;
 		cout << endl << "The word was: " << nn << endl;
+		cout << endl << "Score: " << score << endl;
 	} else if (isdone()) {
-		cout << endl << "-- W o r d  g u e s s e d! --" << endl;
+		score++;
+		cout << endl << "-- W O R D  G U E S S E D! --" << endl;
+		cout << endl << "Score: " << score << endl;
 	}
 }
 
@@ -143,7 +151,7 @@ int main() {
 		string rr(1, r);
 		for (int i = 0; i < n.size() - 1; i++) {
 			if (r == n[i]) {
-				v.push_back(rr);
+				v.push_back(string(1, nn[i]));
 			} else if (n[i] == ' ' || n[i] == ':' || n[i] == '\'' || n[i] == ',' || n[i] == '-' || n[i] == '.') {
 				v.push_back(string(1, n[i]));
 			}	else {
@@ -158,7 +166,7 @@ int main() {
 			cin >> input;
 			for (int i = 0; i < n.size(); i++) {
 				if (input == n[i]) {
-					v.at(i) = input;
+					v.at(i) = nn[i];
 					found = true;
 				}
 			}
