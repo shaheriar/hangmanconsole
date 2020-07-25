@@ -131,11 +131,11 @@ void print() {
 
 int main() {
 	bool newgame = true;
+	unsigned seed = time(0);
+	srand(seed);
 	char choice;
 	setup();
 	while(newgame) {
-		unsigned seed = time(0);
-		srand(seed);
 		n = dictionary.at(rand() % dictionary.size());
 		nn = n;
 		transform(n.begin(), n.end(), n.begin(), ::tolower);
@@ -144,7 +144,7 @@ int main() {
 		for (int i = 0; i < n.size() - 1; i++) {
 			if (r == n[i]) {
 				v.push_back(rr);
-			} else if (n[i] == ' ' || n[i] == ':' || n[i] == '\'' || n[i] == ',' || n[i] == '-') {
+			} else if (n[i] == ' ' || n[i] == ':' || n[i] == '\'' || n[i] == ',' || n[i] == '-' || n[i] == '.') {
 				v.push_back(string(1, n[i]));
 			}	else {
 				v.push_back("_");
