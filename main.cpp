@@ -8,13 +8,6 @@
 
 using namespace std;
 
-string drawful = "_______\n|     |\n|     O\n|    /|\\\n|     |\n|    / \\\n|__________\n";
-string drawone = "_______\n|     |\n|     O\n|    /|\\\n|     |\n|      \\\n|__________\n";
-string drawtwo = "_______\n|     |\n|     O\n|    /|\\\n|      \n|       \n|__________\n";
-string drawthree = "_______\n|     |\n|     O\n|     |\\\n|      \n|       \n|__________\n";
-string drawfour = "_______\n|     |\n|     O\n|      \n|      \n|       \n|__________\n";
-string drawfive = "_______\n|     |\n|      \n|      \n|      \n|       \n|__________\n";
-
 char input;
 string n;
 string nn;
@@ -35,7 +28,7 @@ void setup() {
 	int num;
 	string text;
 	string input;
-	cout << "\n1. Movies\n2. General Dictionary\n3. User Defined Dictionary\n" << endl << "Choose a category: ";
+	cout << "\n1. Movies\n2. General Dictionary\n3. User Defined Dictionary\n\nChoose a category: ";
 	cin >> input;
 	while(!correct) {
 		try {
@@ -51,9 +44,7 @@ void setup() {
 				category = "dictionary.txt"; correct = true; break;
 			case 3:
 				cout << "Enter file name (with extension): ";
-				cin >> category;
-				correct = true;
-				break;
+				cin >> category; correct = true; break;
 			default:
 				correct = false; break;
 		}
@@ -68,12 +59,12 @@ void setup() {
 			dictionary.push_back(text);
 		}
 	}
-	stage.push_back(drawful);
-	stage.push_back(drawone);
-	stage.push_back(drawtwo);
-	stage.push_back(drawthree);
-	stage.push_back(drawfour);
-	stage.push_back(drawfive);
+	stage.push_back("_______\n|     |\n|     O\n|    /|\\\n|     |\n|    / \\\n|__________\n");
+	stage.push_back("_______\n|     |\n|     O\n|    /|\\\n|     |\n|      \\\n|__________\n");
+	stage.push_back("_______\n|     |\n|     O\n|    /|\\\n|      \n|       \n|__________\n");
+	stage.push_back("_______\n|     |\n|     O\n|     |\\\n|      \n|       \n|__________\n");
+	stage.push_back("_______\n|     |\n|     O\n|      \n|      \n|       \n|__________\n");
+	stage.push_back("_______\n|     |\n|      \n|      \n|      \n|       \n|__________\n");
 }
 
 bool lost() {
@@ -106,8 +97,7 @@ void notfound(char inn) {
 }
 
 void print() {
-	cout << endl << "-- H A N G  M A N --\n";
-	cout << endl << "Score: " << score << endl;
+	cout << "\n-- H A N G  M A N --\n\nScore: " << score << endl;
 	cout << stage.at(index) << endl;
 	for (int i = 0; i < v.size(); i++) {
 		cout << v.at(i) << ' ';
@@ -118,21 +108,18 @@ void print() {
 	}
 	cout << endl;
 	if (!found && start) {
-		cout << endl << "Oops! Letter not found!" << endl << endl << "Tries left: " << 5-index << endl;
+		cout << endl << "Oops! Letter not found!\n\nTries left: " << 5-index << endl;
 	} else if (found && start) {
-		cout << endl << "Letter found!" << endl;
+		cout << "\nLetter found!\n";
 	}
 	if (lost()) {
 		if (score > 0) {
 			score--;
 		}
-		cout << endl << "-- G A M E  L O S T --" << endl;
-		cout << endl << "The word was: " << nn << endl;
-		cout << endl << "Score: " << score << endl;
+		cout << "\n-- G A M E  L O S T --\n\nThe word was: " << nn << "\n\nScore: " << score << endl;
 	} else if (isdone()) {
 		score++;
-		cout << endl << "-- W O R D  G U E S S E D! --" << endl;
-		cout << endl << "Score: " << score << endl;
+		cout << "\n-- W O R D  G U E S S E D! --\n\nScore: " << score << endl;
 	}
 }
 
