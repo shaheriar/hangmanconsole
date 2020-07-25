@@ -22,7 +22,7 @@ vector<string> v;
 vector<string> nf;
 vector<string> stage;
 vector<string> dictionary;
-int start = 0;
+bool start = false;
 bool done = false;
 bool found = false;
 int index = 0;
@@ -63,7 +63,6 @@ void setup() {
 		cout << "Cannot find dictionary. Closing." << endl;
 		exit(-1);
 	}
-	int i = 0;
 	while(getline(in, text)) {
 		if (text.size() > 3) {
 			dictionary.push_back(text);
@@ -118,9 +117,9 @@ void print() {
 		cout << nf.at(j) << ' ';
 	}
 	cout << endl;
-	if (!found && start > 0) {
+	if (!found && start) {
 		cout << endl << "Oops! Letter not found!" << endl << endl << "Tries left: " << 5-index << endl;
-	} else if (found && start > 0) {
+	} else if (found && start) {
 		cout << endl << "Letter found!" << endl;
 	}
 	if (lost()) {
@@ -159,7 +158,7 @@ int main() {
 			}
 		}
 		while(!done) {
-			system("clear");
+			system("clear"); //remove this or change this to "cls" if using windows console
 			print();
 			cout << endl << "Guess one letter of the word: ";
 			found = false;
@@ -176,9 +175,9 @@ int main() {
 			}
 			done = isdone() || lost();
 			cout << endl;
-			start = 1;
+			start = true;
 		}
-		system("clear");
+		system("clear"); //remove this or change this to "cls" if using windows console
 		print();
 		cout << endl << "New game? (Y/N): ";
 		cin >> choice;
@@ -195,7 +194,7 @@ int main() {
 			nf.clear();
 			index = 0;
 			done = false;
-			start = 0;
+			start = false;
 		}
 		else if (choice == 'N' || choice == 'n') {
 			break;
