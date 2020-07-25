@@ -29,12 +29,10 @@ The Matrix
 Star Wars
 Seven Samurai
 City of God
-Se7en
 The Silence of the Lambs
 The Usual Suspects
 It's a Wonderful Life
 Life Is Beautiful
-Léon: The Professional
 Once Upon a Time in the West
 Interstellar
 Saving Private Ryan
@@ -69,7 +67,7 @@ The Shining
 Paths of Glory
 Django Unchained
 The Dark Knight Rises
-WALL·E
+WALL-E
 American Beauty
 Grave of the Fireflies
 Aliens
@@ -79,10 +77,8 @@ Princess Mononoke
 Vertigo
 Oldeuboi
 Das Boot
-M
 Star Wars: Episode VI - Return of the Jedi
 Once Upon a Time in America
-Amélie
 Witness for the Prosecution
 Reservoir Dogs
 Braveheart
@@ -104,7 +100,6 @@ Snatch.
 2001: A Space Odyssey
 The Kid
 L.A. Confidential
-Rashômon
 For a Few Dollars More
 Toy Story
 The Apartment
@@ -207,7 +202,6 @@ The Bourne Ultimatum
 The Best Years of Our Lives
 Donnie Darko
 Relatos salvajes
-8½
 Strangers on a Train
 Jurassic Park
 The Avengers

@@ -3,6 +3,7 @@
 #include <vector>
 #include <sstream>
 #include <ctime>
+#include <stdlib.h>
 #include <algorithm>
 
 using namespace std;
@@ -21,6 +22,7 @@ vector<string> v;
 vector<string> nf;
 vector<string> stage;
 vector<string> dictionary;
+int start = 0;
 bool done = false;
 bool found = false;
 int index = 0;
@@ -74,10 +76,8 @@ void setup() {
 	stage.push_back(drawfive);
 }
 
-bool lost(string s) {
+bool lost() {
 	if (index > 4) {
-		cout << endl << "Game lost" << endl;
-		cout << endl << "The word was: " << s << endl;
 		return true;
 	}
 	return false;
@@ -89,20 +89,7 @@ bool isdone() {
 			return false;
 		}
 	}
-	cout << endl << "Word guessed!" << endl;
 	return true;
-}
-
-void print() {
-	cout << stage.at(index);
-	for (int i = 0; i < v.size(); i++) {
-		cout << v.at(i) << ' ';
-	}
-	cout << endl;
-	for (int j = 0; j < nf.size(); j++) {
-		cout << nf.at(j) << ' ';
-	}
-	cout << endl;
 }
 
 void notfound(char inn) {
@@ -118,6 +105,30 @@ void notfound(char inn) {
 	}
 }
 
+void print() {
+	cout << endl << "-- H A N G  M A N --\n";
+	cout << stage.at(index);
+	for (int i = 0; i < v.size(); i++) {
+		cout << v.at(i) << ' ';
+	}
+	cout << endl;
+	for (int j = 0; j < nf.size(); j++) {
+		cout << nf.at(j) << ' ';
+	}
+	cout << endl;
+	if (!found && start > 0) {
+		cout << endl << "Oops! Letter not found!" << endl << endl << "Tries left: " << 5-index << endl;
+	} else if (found && start > 0) {
+		cout << endl << "Letter found!" << endl;
+	}
+	if (lost()) {
+		cout << endl << "-- G a m e  l o s t --" << endl;
+		cout << endl << "The word was: " << nn << endl;
+	} else if (isdone()) {
+		cout << endl << "-- W o r d  g u e s s e d! --" << endl;
+	}
+}
+
 int main() {
 	bool newgame = true;
 	char choice;
@@ -125,7 +136,6 @@ int main() {
 	while(newgame) {
 		unsigned seed = time(0);
 		srand(seed);
-		cout << endl << "-- H A N G  M A N --\n";
 		n = dictionary.at(rand() % dictionary.size());
 		nn = n;
 		transform(n.begin(), n.end(), n.begin(), ::tolower);
@@ -140,28 +150,28 @@ int main() {
 				v.push_back("_");
 			}
 		}
-		print();
 		while(!done) {
+			system("clear");
+			print();
 			cout << endl << "Guess one letter of the word: ";
+			found = false;
 			cin >> input;
-			cout << endl << "==========================================" << endl;
 			for (int i = 0; i < n.size(); i++) {
 				if (input == n[i]) {
-					cout << endl << "Letter found!" << endl;
 					v.at(i) = input;
 					found = true;
 				}
 			}
 			if (!found) {
-				cout << endl << "Oops! Letter not found!" << endl << endl << "Tries left: " << 4-index << endl;
 				index++;
 				notfound(input);
 			}
-			done = isdone() || lost(nn);
-			found = false;
+			done = isdone() || lost();
 			cout << endl;
-			print();
+			start = 1;
 		}
+		system("clear");
+		print();
 		cout << endl << "New game? (Y/N): ";
 		cin >> choice;
 		while ((choice != 'Y' && choice != 'y') && (choice != 'N' && choice != 'n')) {
@@ -177,6 +187,7 @@ int main() {
 			nf.clear();
 			index = 0;
 			done = false;
+			start = 0;
 		}
 		else if (choice == 'N' || choice == 'n') {
 			break;
