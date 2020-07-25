@@ -18,7 +18,7 @@ vector<string> dictionary;
 bool start = false;
 bool done = false;
 bool found = false;
-int index = 0;
+int ind = 0;
 int score = 0;
 
 void setup() {
@@ -68,7 +68,7 @@ void setup() {
 }
 
 bool lost() {
-	if (index > 4) {
+	if (ind > 4) {
 		return true;
 	}
 	return false;
@@ -98,7 +98,7 @@ void notfound(char inn) {
 
 void print() {
 	cout << "\n-- H A N G  M A N --\n\nScore: " << score << endl;
-	cout << stage.at(index) << endl;
+	cout << stage.at(ind) << endl;
 	for (int i = 0; i < v.size(); i++) {
 		cout << v.at(i) << ' ';
 	}
@@ -108,7 +108,7 @@ void print() {
 	}
 	cout << endl;
 	if (!found && start) {
-		cout << endl << "Oops! Letter not found!\n\nTries left: " << 5-index << endl;
+		cout << endl << "Oops! Letter not found!\n\nTries left: " << 5-ind << endl;
 	} else if (found && start) {
 		cout << "\nLetter found!\n";
 	}
@@ -157,7 +157,7 @@ int main() {
 				}
 			}
 			if (!found) {
-				index++;
+				ind++;
 				notfound(input);
 			}
 			done = isdone() || lost();
@@ -179,7 +179,7 @@ int main() {
 			newgame = true;
 			v.clear();
 			nf.clear();
-			index = 0;
+			ind = 0;
 			done = false;
 			start = false;
 		}
