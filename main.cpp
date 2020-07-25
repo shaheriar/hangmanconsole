@@ -35,7 +35,7 @@ void setup() {
 	int num;
 	string text;
 	string input;
-	cout << "Choose a category: \n1. Movies\n2. General Dictionary\n3. User Defined Dictionary" << endl;
+	cout << "\n1. Movies\n2. General Dictionary\n3. User Defined Dictionary\n" << endl << "Choose a category: ";
 	cin >> input;
 	while(!correct) {
 		try {
