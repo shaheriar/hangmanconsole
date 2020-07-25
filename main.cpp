@@ -29,14 +29,14 @@ void setup() {
 	string text;
 	string input;
 	cout << "\n1. Movies\n2. General Dictionary\n3. User Defined Dictionary\n\nChoose a category: ";
-	cin >> input;
 	while(!correct) {
+        cin >> input;
 		try {
 			num = stoi(input); correct = true;
 		} catch(const invalid_argument& error) {
 			cout << "Invalid entry. Try again: ";
 			cin >> input;
-		}		
+		}
 		switch(num) {
 			case 1:
 				category = "movies.txt"; correct = true; break;
@@ -46,6 +46,7 @@ void setup() {
 				cout << "Enter file name (with extension): ";
 				cin >> category; correct = true; break;
 			default:
+                cout << "Invalid entry. Try again: ";
 				correct = false; break;
 		}
 	}
