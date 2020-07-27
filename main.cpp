@@ -18,6 +18,9 @@ vector<string> dictionary;
 bool start = false;
 bool done = false;
 bool found = false;
+bool streak = false;
+double strk = 1;
+int cnt = 1;
 int ind = 0;
 int score = 0;
 
@@ -107,20 +110,40 @@ void print() {
 	for (int j = 0; j < nf.size(); j++) {
 		cout << nf.at(j) << ' ';
 	}
-	cout << endl;
+	if (streak) {
+		cout << endl << "Winning streak: " << cnt << endl;
+	}
 	if (!found && start) {
 		cout << endl << "Oops! Letter not found!\n\nTries left: " << 5-ind << endl;
 	} else if (found && start) {
 		cout << "\nLetter found!\n";
 	}
 	if (lost()) {
+		streak = false;
+		strk = 1;
+		cnt = 1;
 		if (score > 0) {
-			score--;
+			score = score - (n.size()*3);
 		}
+		if (score < 0) {
+				score = 0;
+			}
 		cout << "\n-- G A M E  L O S T --\n\nThe word was: " << nn << "\n\nScore: " << score << endl;
 	} else if (isdone()) {
-		score++;
-		cout << "\n-- W O R D  G U E S S E D! --\n\nScore: " << score << endl;
+		if (streak) {
+			strk *= 1.2;
+			cnt++;
+		}
+		streak = true;
+		score = score + (n.size()*strk) + (5-ind);
+		cout << "\n-- W O R D  G U E S S E D! --" << endl;
+		cout << endl << "Guesses left: +" << 5-ind << endl;
+		if (streak) {
+			cout << "Word size + streak bonus: +" << int(n.size()*strk) << endl;
+		} else {
+			cout << "Word size: +" << n.size() << endl;
+		}
+		cout << endl << "Score: " << score << endl;
 	}
 }
 
