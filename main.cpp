@@ -124,6 +124,13 @@ void print() {
 	}
 }
 
+bool specialchar(char r) {
+	if (r == ' ' || r == ':' || r == '\'' || r == ',' || r == '-' || r == '.') {
+		return true;
+	}
+	return false;
+}
+
 int main() {
 	bool newgame = true;
 	unsigned seed = time(0);
@@ -135,11 +142,16 @@ int main() {
 		nn = n;
 		transform(n.begin(), n.end(), n.begin(), ::tolower);
 		char r = n[rand() % n.size()];
+		if (specialchar(r)) {
+			while (specialchar(r)) {
+				r = n[rand() % n.size()];
+			}
+		}
 		string rr(1, r);
 		for (int i = 0; i < n.size() - 1; i++) {
 			if (r == n[i]) {
 				v.push_back(string(1, nn[i]));
-			} else if (n[i] == ' ' || n[i] == ':' || n[i] == '\'' || n[i] == ',' || n[i] == '-' || n[i] == '.') {
+			} else if (specialchar(n[i])) {
 				v.push_back(string(1, n[i]));
 			}	else {
 				v.push_back("_");
