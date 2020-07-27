@@ -55,7 +55,6 @@ Gladiator
 Apocalypse Now
 Back to the Future
 Sunset Blvd.
-Dr. Strangelove or: How I Learned to Stop Worrying and Love the Bomb
 The Prestige
 Alien
 The Lion King
@@ -248,3 +247,82 @@ Elite Squad: The Enemy Within
 Gangs of Wasseypur
 Lagaan: Once Upon a Time in India
 Akira
+Black Hawk Down
+Casino Royal
+Collateral
+Doctor Strange
+John Wick
+Skyfall
+Taken
+The Raid
+Ratatouille
+World of tomorrow
+Zootopia
+Hot Fuzz
+Office Space
+Shaun of the Dead
+Superbad
+The Big Short
+The Breakfast Club
+Ticker and Dale vs Evil
+Tropic Thunder
+127 Hours
+American Psycho
+Birdman
+Black Swan
+Blood Diamond
+Call Me if You Can
+Dallas Buyers Club
+Dead Poets Society
+Drive
+Fantastic Beasts and Where to Find Them
+Groundhog Day
+Hugo
+Leon: The Professional
+Life of Pi
+Machinist
+Nightcrawler
+Nocturnal Animals
+Rain Man
+Requiem For a Dream
+Ruby Sparks
+Samsara
+Short Term 12
+Sing Street
+The Aviator
+The Boy in the Striped Pyjamas
+The Perks of Being a Wallflower
+The Revenant
+The Social Network
+The Spectacular Now
+Arrival
+Chronicle
+Edge of Tomorrow
+Equilibrium
+Ex Machina
+Gravity
+Her
+Looper
+Minority Report
+Moon
+Serenity
+Source Code
+Sunshine
+The Martian
+A Ghost Story
+A Serious Man
+Certified Copy
+Mr. Nobody
+Open Your Eyes
+Synecdoche, New York
+The Fountain
+The Man From Earth
+The Master
+The Sunset Limited
+To the Wonder
+Tree of Life
+Upstream Color
+Waking life
+Wings of Desire
+28 Days Later
+Ocean's 8

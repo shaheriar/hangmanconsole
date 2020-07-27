@@ -58,9 +58,15 @@ void setup() {
 		cout << "Cannot find dictionary. Closing." << endl;
 		exit(-1);
 	}
-	while(getline(in, text)) {
-		if (text.size() > 3) {
+	if (category == "movies.txt") {
+		while(getline(in, text)) {
 			dictionary.push_back(text);
+		}	
+	} else {
+		while(getline(in, text)) {
+			if (text.size() < 5) {
+				dictionary.push_back(text);
+			}
 		}
 	}
 	stage.push_back("_______\n|     |\n|     O\n|    /|\\\n|     |\n|    / \\\n|__________\n");
@@ -110,13 +116,14 @@ void print() {
 	for (int j = 0; j < nf.size(); j++) {
 		cout << nf.at(j) << ' ';
 	}
+	cout << endl;
 	if (streak) {
 		cout << endl << "Winning streak: " << cnt << endl;
 	}
 	if (!found && start) {
-		cout << endl << "Oops! Letter not found!\n\nTries left: " << 5-ind << endl;
+		cout << endl << "Oops! Letter not found!" << endl;
 	} else if (found && start) {
-		cout << "\nLetter found!\n";
+		cout << endl << "Letter found!" << endl;
 	}
 	if (lost()) {
 		streak = false;
@@ -145,6 +152,7 @@ void print() {
 		}
 		cout << endl << "Score: " << score << endl;
 	}
+	cout << endl << "Tries left: " << 5-ind << endl;
 }
 
 bool specialchar(char r) {
@@ -161,10 +169,11 @@ int main() {
 	char choice;
 	setup();
 	while(newgame) {
-		n = dictionary.at(rand() % dictionary.size());
+		int ran = rand() % dictionary.size();
+		n = dictionary.at(ran);
 		nn = n;
 		transform(n.begin(), n.end(), n.begin(), ::tolower);
-		char r = n[rand() % n.size()];
+		char r = n[rand() % (n.size()-1)];
 		if (specialchar(r)) {
 			while (specialchar(r)) {
 				r = n[rand() % n.size()];
@@ -197,7 +206,6 @@ int main() {
 				notfound(input);
 			}
 			done = isdone() || lost();
-			cout << endl;
 			start = true;
 		}
 		system("clear"); //remove this or change this to "cls" if using windows console
