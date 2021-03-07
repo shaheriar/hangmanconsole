@@ -87,11 +87,17 @@ void setup() {
 		}
 	}
 	
+	//FULL BODY
 	stage.push_back("_______\n|     |\n|     O\n|    /|\\\n|     |\n|    / \\\n|__________\n");
+	//ONE LEG MISSING
 	stage.push_back("_______\n|     |\n|     O\n|    /|\\\n|     |\n|      \\\n|__________\n");
+	//BOTH LEGS MISSING
 	stage.push_back("_______\n|     |\n|     O\n|    /|\\\n|      \n|       \n|__________\n");
+	//ONE ARM MISSING
 	stage.push_back("_______\n|     |\n|     O\n|     |\\\n|      \n|       \n|__________\n");
+	//BOTH ARMS MISSING
 	stage.push_back("_______\n|     |\n|     O\n|      \n|      \n|       \n|__________\n");
+	//HEAD MISSING
 	stage.push_back("_______\n|     |\n|      \n|      \n|      \n|       \n|__________\n");
 	
 }
