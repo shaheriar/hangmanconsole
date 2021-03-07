@@ -8,38 +8,50 @@
 
 using namespace std;
 
-char input;
-string n;
-string nn;
-vector<string> v;
-vector<string> nf;
-vector<string> stage;
-vector<string> dictionary;
-bool start = false;
-bool done = false;
-bool found = false;
-bool streak = false;
-double strk = 1;
-int cnt = 1;
-int ind = 0;
-int score = 0;
+char input;							//THE INPUT FOR THE MENU
+string WordLowerCase;				//THE WORD TO GUESS BUT IN LOWERCASE
+string WordActual;					//THE WORD TO GUESS
+vector<string> DisplayChars;		//THE ACTUAL WORD BUT HIDDEN
+vector<string> CharsNotFound;		//LIST OF WRONGLY ATTEMPTED LETTERS
+vector<string> stage;				//WHAT LEVEL OF THE GAME TO DISPLAY
+vector<string> dictionary;			//ENTIRE LIST OF AVAILABLE WORDS
+bool start = false;					//CHECKS IF GAME HAS BEEN STARTED
+bool done = false;					//CHECKS IF GAME HAS BEEN ENDED
+bool found = false;					//CHECKS IF ATTEMPTED LETTER HAS BEEN FOUND
+bool streak = false;				//CHECKS IF THERE IS CURRENTLY A STREAK GOING
+double StreakCount = 1;				//KEEPS A MULTIPLIER OF THE STREAK
+int Count = 1;						//KEEPS A COUNT OF THE STREAK
+int StageIndex = 0;					//INDEX OF THE LEVEL THAT IS DISPLAYED
+int score = 0;						//THE CURRENT SCORE
 
+
+//SETTING UP THE GAME
 void setup() {
-	ifstream in;
+	
+	ifstream CharToString;
 	string category;
 	bool correct = false;
 	int num;
 	string text;
 	string input;
-	cout << "\n1. Movies\n2. General Dictionary\n3. User Defined Dictionary\n\nChoose a category: ";
+	
+	cout << endl << "1. Movies" 
+		 << endl << "2. General Dictionary"
+		 << endl << "3. User Defined Dictionary"
+		 << endl 
+		 << endl << "Choose a category: ";
+			
 	while(!correct) {
+		
         cin >> input;
+		
 		try {
 			num = stoi(input); correct = true;
 		} catch(const invalid_argument& error) {
 			cout << "Invalid entry. Try again: ";
 			cin >> input;
 		}
+		
 		switch(num) {
 			case 1:
 				category = "movies.txt"; correct = true; break;
@@ -52,184 +64,253 @@ void setup() {
                 cout << "Invalid entry. Try again: ";
 				correct = false; break;
 		}
+		
 	}
-	in.open(category);
-	if (!in.is_open()) {
+	
+	CharToString.open(category);
+	
+	if (!CharToString.is_open()) {
 		cout << "Cannot find dictionary. Closing." << endl;
 		exit(-1);
 	}
+	
 	if (category == "movies.txt") {
-		while(getline(in, text)) {
+		while(getline(CharToString, text)) {
 			dictionary.push_back(text);
-		}	
+		}
+		
 	} else {
-		while(getline(in, text)) {
+		while(getline(CharToString, text)) {
 			if (text.size() < 5) {
 				dictionary.push_back(text);
 			}
 		}
 	}
+	
 	stage.push_back("_______\n|     |\n|     O\n|    /|\\\n|     |\n|    / \\\n|__________\n");
 	stage.push_back("_______\n|     |\n|     O\n|    /|\\\n|     |\n|      \\\n|__________\n");
 	stage.push_back("_______\n|     |\n|     O\n|    /|\\\n|      \n|       \n|__________\n");
 	stage.push_back("_______\n|     |\n|     O\n|     |\\\n|      \n|       \n|__________\n");
 	stage.push_back("_______\n|     |\n|     O\n|      \n|      \n|       \n|__________\n");
 	stage.push_back("_______\n|     |\n|      \n|      \n|      \n|       \n|__________\n");
+	
 }
 
+//RETURNS IF GAME IS LOST
 bool lost() {
-	if (ind > 4) {
-		return true;
-	}
-	return false;
+	return (StageIndex > 4) ? true : false;
 }
 
-bool isdone() {
-	for (int i = 0; i < v.size(); i++) {
-		if (v.at(i) == "_") {
+//RETURNS IF GAME IS WON
+bool won() {
+	for (int i = 0; i < DisplayChars.size(); i++) {
+		if (DisplayChars.at(i) == "_") {
 			return false;
 		}
 	}
 	return true;
 }
 
-void notfound(char inn) {
-	string in(1, inn);
+//CHECKS IF THE CHAR IS NOT FOUND IN THE WORD
+void notfound(char c) {
+	
+	string CharToString(1, c);
 	bool f = false;
-	for (int i = 0; i < nf.size(); i++) {
-		if (nf.at(i) == in) {
+	
+	for (int i = 0; i < CharsNotFound.size(); i++) {
+		if (CharsNotFound.at(i) == CharToString) {
 			f = true;
 		}
 	}
+	
 	if (!f) {
-		nf.push_back(in);
+		CharsNotFound.push_back(CharToString);
 	}
 }
 
+//THE DISPLAY
 void print() {
-	cout << "\n-- H A N G  M A N --\n\nScore: " << score << endl;
-	cout << stage.at(ind) << endl;
-	for (int i = 0; i < v.size(); i++) {
-		cout << v.at(i) << ' ';
+	
+	//TITLE
+	cout 
+	<< endl << "-- H A N G  M A N --" << endl 
+	<< endl << "Score: " << score << endl;
+	
+	//HANG-MAN IMAGE
+	cout << stage.at(StageIndex) << endl;
+	
+	//THE WORD TO GUESS
+	for (int i = 0; i < DisplayChars.size(); i++) {
+		cout << DisplayChars.at(i) << ' ';
 	}
+	
 	cout << endl;
-	for (int j = 0; j < nf.size(); j++) {
-		cout << nf.at(j) << ' ';
+	
+	//WRONGLY GUESSED LETTERS
+	for (int j = 0; j < CharsNotFound.size(); j++) {
+		cout << CharsNotFound.at(j) << ' ';
 	}
+	
 	cout << endl;
+	
+	//WINNING STREAK
 	if (streak) {
-		cout << endl << "Winning streak: " << cnt << endl;
+		cout << endl << "Winning streak: " << Count << endl;
 	}
+	
+	//IF LETTER IS FOUND OR NOT
 	if (!found && start) {
 		cout << endl << "Oops! Letter not found!" << endl;
 	} else if (found && start) {
 		cout << endl << "Letter found!" << endl;
 	}
+	
+	//LOSING SCREEN
 	if (lost()) {
+		
 		streak = false;
-		strk = 1;
-		cnt = 1;
-		if (score > 0) {
-			score = score - (n.size()*3);
-		}
-		if (score < 0) {
-				score = 0;
-			}
-		cout << "\n-- G A M E  L O S T --\n\nThe word was: " << nn << "\n\nScore: " << score << endl;
-	} else if (isdone()) {
+		StreakCount = 1;
+		Count = 1;
+		
+		if (score > 0) { score = score - (WordLowerCase.size()*3); }
+		if (score < 0) { score = 0; }
+			
+		cout 
+		<< endl << "-- G A M E  L O S T --" << endl 
+		<< endl << "The word was: " << WordActual << endl 
+		<< endl << "Score: " << score << endl;
+	
+	//WINNING SCREEN
+	} else if (won()) {
 		if (streak) {
-			strk *= 1.2;
-			cnt++;
+			StreakCount *= 1.2;
+			Count++;
 		}
 		streak = true;
-		score = score + (n.size()*strk) + (5-ind);
-		cout << "\n-- W O R D  G U E S S E D! --" << endl;
-		cout << endl << "Guesses left: +" << 5-ind << endl;
+		score = score + (WordLowerCase.size()*StreakCount) + (5-StageIndex);
+		
+		cout << endl << "-- W O R D  G U E S S E D! --"   << endl 
+			 << endl << "Guesses left: +" << 5-StageIndex << endl;
+		
 		if (streak) {
-			cout << "Word size + streak bonus: +" << int(n.size()*strk) << endl;
+			cout << "Word size + streak bonus: +" << int(WordLowerCase.size()*StreakCount) << endl;
 		} else {
-			cout << "Word size: +" << n.size() << endl;
+			cout << "Word size: +" << WordLowerCase.size() << endl;
 		}
+		
 		cout << endl << "Score: " << score << endl;
 	}
-	cout << endl << "Tries left: " << 5-ind << endl;
+	
+	//NUMBER OF TRIES LEFT
+	cout << endl << "Tries left: " << 5-StageIndex << endl;
 }
 
-bool specialchar(char r) {
-	if (r == ' ' || r == ':' || r == '\'' || r == ',' || r == '-' || r == '.') {
-		return true;
-	}
-	return false;
+//CHECKS IF CHAR IS A SPECIAL CHARACTER
+bool specialchar(char c) {
+	return (c == ' ' || 
+			c == ':' || 
+			c == '\'' || 
+			c == ',' || 
+			c == '-' || 
+			c == '.')   ? true : false;
 }
+
+//THE ACTUAL GAME
+void play(bool& newgame) {
+	
+	char choice;
+	
+	//CHOOSE A RANDOM WORD FROM THE DICTIONARY TO GUESS
+	WordLowerCase = dictionary.at(rand() % dictionary.size());
+	WordActual = WordLowerCase;
+	
+	//TURN THE WORD INTO LOWERCASE
+	transform(WordLowerCase.begin(), WordLowerCase.end(), WordLowerCase.begin(), ::tolower);
+	
+	//CHOOSE A RANDOM STARTING LETTER AS A HINT
+	char RandomChar = WordLowerCase[rand() % (WordLowerCase.size()-1)];
+	
+	//IF ANY LETTER IS A SPECIAL CHARACTER THEN SHOW IT
+	if (specialchar(RandomChar)) {
+		while (specialchar(RandomChar)) {
+			RandomChar = WordLowerCase[rand() % WordLowerCase.size()];
+		}
+	}
+	
+	//DEVELOP THE DISPLAYED WORD
+	for (int i = 0; i < WordLowerCase.size() - 1; i++) {
+		if (RandomChar == WordLowerCase[i]) {
+			DisplayChars.push_back(string(1, WordActual[i]));
+		} else if (specialchar(WordLowerCase[i])) {
+			DisplayChars.push_back(string(1, WordLowerCase[i]));
+		} else {
+			DisplayChars.push_back("_");
+		}
+	}
+	
+	while(!done) {
+		
+		system("clear"); //remove this or change this to "cls" if using windows console
+		print();
+		cout << endl << "Guess one letter of the word: ";
+		found = false;
+		
+		//INPUT A LETTER AND CHECK IF ITS FOUND
+		cin >> input;
+		
+		for (int i = 0; i < WordLowerCase.size(); i++) {
+			if (input == WordLowerCase[i]) {
+				DisplayChars.at(i) = WordActual[i];
+				found = true;
+			}
+		}
+		
+		//IF NOT FOUND THEN REMOVE A BODY PART
+		if (!found) {
+			StageIndex++;
+			notfound(input);
+		}
+		
+		//CHECK IF THE GAME IS DONE
+		done = won() || lost();
+		start = true;
+	}
+	
+	//IF GAME IS DONE THEN ASK IF USER WANTS TO START NEW GAME
+	
+	system("clear"); //remove this or change this to "cls" if using windows console
+	print();
+	cout << endl << "New game? (Y/N): ";
+	cin >> choice;
+	
+	while ((choice != 'Y' && choice != 'y') && (choice != 'N' && choice != 'n')) {
+		cout << endl << "Please enter either Y or N: "; 
+		cin >> choice;
+		cout << endl;
+	}
+	
+	if (choice == 'Y' || choice == 'y') {
+		newgame = true;
+		DisplayChars.clear();
+		CharsNotFound.clear();
+		StageIndex = 0;
+		done = false;
+		start = false;
+	}
+	
+	else if (choice == 'N' || choice == 'n') {
+		newgame = false;
+	}
+	
+}	
 
 int main() {
 	bool newgame = true;
 	unsigned seed = time(0);
 	srand(seed);
-	char choice;
 	setup();
 	while(newgame) {
-		int ran = rand() % dictionary.size();
-		n = dictionary.at(ran);
-		nn = n;
-		transform(n.begin(), n.end(), n.begin(), ::tolower);
-		char r = n[rand() % (n.size()-1)];
-		if (specialchar(r)) {
-			while (specialchar(r)) {
-				r = n[rand() % n.size()];
-			}
-		}
-		string rr(1, r);
-		for (int i = 0; i < n.size() - 1; i++) {
-			if (r == n[i]) {
-				v.push_back(string(1, nn[i]));
-			} else if (specialchar(n[i])) {
-				v.push_back(string(1, n[i]));
-			}	else {
-				v.push_back("_");
-			}
-		}
-		while(!done) {
-			system("clear"); //remove this or change this to "cls" if using windows console
-			print();
-			cout << endl << "Guess one letter of the word: ";
-			found = false;
-			cin >> input;
-			for (int i = 0; i < n.size(); i++) {
-				if (input == n[i]) {
-					v.at(i) = nn[i];
-					found = true;
-				}
-			}
-			if (!found) {
-				ind++;
-				notfound(input);
-			}
-			done = isdone() || lost();
-			start = true;
-		}
-		system("clear"); //remove this or change this to "cls" if using windows console
-		print();
-		cout << endl << "New game? (Y/N): ";
-		cin >> choice;
-		while ((choice != 'Y' && choice != 'y') && (choice != 'N' && choice != 'n')) {
-			if ((choice != 'Y' && choice != 'y') && (choice != 'N' && choice != 'n')) {
-				cout << endl << "Please enter either Y or N: "; 
-				cin >> choice;
-				cout << endl;
-			}
-		}
-		if (choice == 'Y' || choice == 'y') {
-			newgame = true;
-			v.clear();
-			nf.clear();
-			ind = 0;
-			done = false;
-			start = false;
-		}
-		else if (choice == 'N' || choice == 'n') {
-			break;
-		}
+		play(newgame);
 	}
 	return 0;
 }
