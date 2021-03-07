@@ -117,23 +117,6 @@ bool won() {
 	return true;
 }
 
-//CHECKS IF THE CHAR IS NOT FOUND IN THE WORD
-void notfound(char c) {
-	
-	string CharToString(1, c);
-	bool f = false;
-	
-	for (int i = 0; i < CharsNotFound.size(); i++) {
-		if (CharsNotFound.at(i) == CharToString) {
-			f = true;
-		}
-	}
-	
-	if (!f) {
-		CharsNotFound.push_back(CharToString);
-	}
-}
-
 //THE DISPLAY
 void print() {
 	
@@ -277,7 +260,7 @@ void play() {
 			//IF NOT FOUND THEN REMOVE A BODY PART
 			if (!found) {
 				StageIndex++;
-				notfound(input);
+				CharsNotFound.push_back(string(1,input));
 			}
 		
 			//CHECK IF THE GAME IS DONE
