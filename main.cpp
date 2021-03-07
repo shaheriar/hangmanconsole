@@ -222,101 +222,101 @@ bool specialchar(char c) {
 }
 
 //THE ACTUAL GAME
-void play(bool& newgame) {
+void play() {
 	
-	char choice;
+	bool newgame = true;
 	
-	//CHOOSE A RANDOM WORD FROM THE DICTIONARY TO GUESS
-	WordLowerCase = dictionary.at(rand() % dictionary.size());
-	WordActual = WordLowerCase;
+	while (newgame) {
+		char choice;
 	
-	//TURN THE WORD INTO LOWERCASE
-	transform(WordLowerCase.begin(), WordLowerCase.end(), WordLowerCase.begin(), ::tolower);
+		//CHOOSE A RANDOM WORD FROM THE DICTIONARY TO GUESS
+		WordLowerCase = dictionary.at(rand() % dictionary.size());
+		WordActual = WordLowerCase;
 	
-	//CHOOSE A RANDOM STARTING LETTER AS A HINT
-	char RandomChar = WordLowerCase[rand() % (WordLowerCase.size()-1)];
+		//TURN THE WORD INTO LOWERCASE
+		transform(WordLowerCase.begin(), WordLowerCase.end(), WordLowerCase.begin(), ::tolower);
 	
-	//IF ANY LETTER IS A SPECIAL CHARACTER THEN SHOW IT
-	if (specialchar(RandomChar)) {
-		while (specialchar(RandomChar)) {
-			RandomChar = WordLowerCase[rand() % WordLowerCase.size()];
-		}
-	}
+		//CHOOSE A RANDOM STARTING LETTER AS A HINT
+		char RandomChar = WordLowerCase[rand() % (WordLowerCase.size()-1)];
 	
-	//DEVELOP THE DISPLAYED WORD
-	for (int i = 0; i < WordLowerCase.size() - 1; i++) {
-		if (RandomChar == WordLowerCase[i]) {
-			DisplayChars.push_back(string(1, WordActual[i]));
-		} else if (specialchar(WordLowerCase[i])) {
-			DisplayChars.push_back(string(1, WordLowerCase[i]));
-		} else {
-			DisplayChars.push_back("_");
-		}
-	}
-	
-	while(!done) {
-		
-		system("clear"); //remove this or change this to "cls" if using windows console
-		print();
-		cout << endl << "Guess one letter of the word: ";
-		found = false;
-		
-		//INPUT A LETTER AND CHECK IF ITS FOUND
-		cin >> input;
-		
-		for (int i = 0; i < WordLowerCase.size(); i++) {
-			if (input == WordLowerCase[i]) {
-				DisplayChars.at(i) = WordActual[i];
-				found = true;
+		//IF ANY LETTER IS A SPECIAL CHARACTER THEN SHOW IT
+		if (specialchar(RandomChar)) {
+			while (specialchar(RandomChar)) {
+				RandomChar = WordLowerCase[rand() % WordLowerCase.size()];
 			}
 		}
+	
+		//DEVELOP THE DISPLAYED WORD
+		for (int i = 0; i < WordLowerCase.size() - 1; i++) {
+			if (RandomChar == WordLowerCase[i]) {
+				DisplayChars.push_back(string(1, WordActual[i]));
+			} else if (specialchar(WordLowerCase[i])) {
+				DisplayChars.push_back(string(1, WordLowerCase[i]));
+			} else {
+				DisplayChars.push_back("_");
+			}
+		}
+	
+		while(!done) {
+			
+			system("clear"); //remove this or change this to "cls" if using windows console
+			print();
+			cout << endl << "Guess one letter of the word: ";
+			found = false;
 		
-		//IF NOT FOUND THEN REMOVE A BODY PART
-		if (!found) {
-			StageIndex++;
-			notfound(input);
+			//INPUT A LETTER AND CHECK IF ITS FOUND
+			cin >> input;
+			
+			for (int i = 0; i < WordLowerCase.size(); i++) {
+				if (input == WordLowerCase[i]) {
+					DisplayChars.at(i) = WordActual[i];
+					found = true;
+				}
+			}
+		
+			//IF NOT FOUND THEN REMOVE A BODY PART
+			if (!found) {
+				StageIndex++;
+				notfound(input);
+			}
+		
+			//CHECK IF THE GAME IS DONE
+			done = won() || lost();
+			start = true;
+		}
+	
+		//IF GAME IS DONE THEN ASK IF USER WANTS TO START NEW GAME
+	
+		system("clear"); //remove this or change this to "cls" if using windows console
+		print();
+		cout << endl << "New game? (Y/N): ";
+		cin >> choice;
+		
+		while ((choice != 'Y' && choice != 'y') && (choice != 'N' && choice != 'n')) {
+			cout << endl << "Please enter either Y or N: "; 
+			cin >> choice;
+			cout << endl;
 		}
 		
-		//CHECK IF THE GAME IS DONE
-		done = won() || lost();
-		start = true;
+		if (choice == 'Y' || choice == 'y') {
+			newgame = true;
+			DisplayChars.clear();
+			CharsNotFound.clear();
+			StageIndex = 0;
+			done = false;
+			start = false;
+		}
+	
+		else if (choice == 'N' || choice == 'n') {
+			newgame = false;
+		}
 	}
-	
-	//IF GAME IS DONE THEN ASK IF USER WANTS TO START NEW GAME
-	
-	system("clear"); //remove this or change this to "cls" if using windows console
-	print();
-	cout << endl << "New game? (Y/N): ";
-	cin >> choice;
-	
-	while ((choice != 'Y' && choice != 'y') && (choice != 'N' && choice != 'n')) {
-		cout << endl << "Please enter either Y or N: "; 
-		cin >> choice;
-		cout << endl;
-	}
-	
-	if (choice == 'Y' || choice == 'y') {
-		newgame = true;
-		DisplayChars.clear();
-		CharsNotFound.clear();
-		StageIndex = 0;
-		done = false;
-		start = false;
-	}
-	
-	else if (choice == 'N' || choice == 'n') {
-		newgame = false;
-	}
-	
 }	
 
 int main() {
-	bool newgame = true;
 	unsigned seed = time(0);
 	srand(seed);
 	setup();
-	while(newgame) {
-		play(newgame);
-	}
+	play();
 	return 0;
 }
