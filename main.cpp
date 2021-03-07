@@ -81,7 +81,7 @@ void setup() {
 		
 	} else {
 		while(getline(filestream, text)) {
-			if (text.size() < 5) {
+			if (text.size() >= 5) {
 				dictionary.push_back(text);
 			}
 		}
