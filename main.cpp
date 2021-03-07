@@ -109,8 +109,8 @@ bool lost() {
 
 //RETURNS IF GAME IS WON
 bool won() {
-	for (int i = 0; i < DisplayChars.size(); i++) {
-		if (DisplayChars.at(i) == "_") {
+	for (auto i : DisplayChars) {
+		if (i == "_") {
 			return false;
 		}
 	}
@@ -121,23 +121,22 @@ bool won() {
 void print() {
 	
 	//TITLE
-	cout 
-	<< endl << "-- H A N G  M A N --" << endl 
-	<< endl << "Score: " << score << endl;
+	cout << endl << "-- H A N G  M A N --" << endl 
+		 << endl << "Score: " << score << endl;
 	
 	//HANG-MAN IMAGE
 	cout << stage.at(StageIndex) << endl;
 	
 	//THE WORD TO GUESS
-	for (int i = 0; i < DisplayChars.size(); i++) {
-		cout << DisplayChars.at(i) << ' ';
+	for (auto i : DisplayChars) {
+		cout << i << ' ';
 	}
 	
 	cout << endl;
 	
 	//WRONGLY GUESSED LETTERS
-	for (int j = 0; j < CharsNotFound.size(); j++) {
-		cout << CharsNotFound.at(j) << ' ';
+	for (auto j : CharsNotFound) {
+		cout << j << ' ';
 	}
 	
 	cout << endl;
@@ -164,10 +163,9 @@ void print() {
 		if (score > 0) { score = score - (WordLowerCase.size()*3); }
 		if (score < 0) { score = 0; }
 			
-		cout 
-		<< endl << "-- G A M E  L O S T --" << endl 
-		<< endl << "The word was: " << WordActual << endl 
-		<< endl << "Score: " << score << endl;
+		cout << endl << "-- G A M E  L O S T --" << endl 
+			 << endl << "The word was: " << WordActual << endl 
+			 << endl << "Score: " << score << endl;
 	
 	//WINNING SCREEN
 	} else if (won()) {
@@ -275,7 +273,7 @@ void play() {
 		cout << endl << "New game? (Y/N): ";
 		cin >> choice;
 		
-		while ((choice != 'Y' && choice != 'y') && (choice != 'N' && choice != 'n')) {
+		while (!(choice == 'Y' || choice == 'y') && !(choice == 'N' || choice == 'n')) {
 			cout << endl << "Please enter either Y or N: "; 
 			cin >> choice;
 			cout << endl;
