@@ -28,7 +28,7 @@ int score = 0;						//THE CURRENT SCORE
 //SETTING UP THE GAME
 void setup() {
 	
-	ifstream CharToString;
+	ifstream filestream;
 	string category;
 	bool correct = false;
 	int num;
@@ -67,20 +67,20 @@ void setup() {
 		
 	}
 	
-	CharToString.open(category);
+	filestream.open(category);
 	
-	if (!CharToString.is_open()) {
+	if (!filestream.is_open()) {
 		cout << "Cannot find dictionary. Closing." << endl;
 		exit(-1);
 	}
 	
 	if (category == "movies.txt") {
-		while(getline(CharToString, text)) {
+		while(getline(filestream, text)) {
 			dictionary.push_back(text);
 		}
 		
 	} else {
-		while(getline(CharToString, text)) {
+		while(getline(filestream, text)) {
 			if (text.size() < 5) {
 				dictionary.push_back(text);
 			}
